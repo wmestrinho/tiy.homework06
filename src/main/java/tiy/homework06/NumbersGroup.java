@@ -14,8 +14,11 @@ public class NumbersGroup {
 
     //Properties of Ticket
     private ArrayList<Integer> number = new ArrayList<Integer>();
+
+
     private String fileName = null;
     private String user;
+    private int matchCount;
 
     //Constructor generates new ticket with randomly unique values
     public NumbersGroup() {
@@ -23,9 +26,9 @@ public class NumbersGroup {
 
         for (int i = 0; i < 6; i++) {
             int tmp = 0;
-            do{
+            do {
                 tmp = generateRandomTicketNumber();
-            }while (number.contains(tmp));
+            } while (number.contains(tmp));
 
             //tmp can only be unique
             number.add(tmp);
@@ -35,7 +38,7 @@ public class NumbersGroup {
     }
 
 
-    //ifuser can specify exact number of tickets
+    //if user can specify exact number of tickets
 
     public NumbersGroup(int one, int two, int three, int four, int five, int six) {
         number.add(one);
@@ -47,11 +50,28 @@ public class NumbersGroup {
 
 
     }
-        public NumbersGroup(ArrayList<Integer> numbers) throws Exception {
-        if(numbers.size()!=6){
+
+    public NumbersGroup(ArrayList<Integer> numbers) throws Exception {
+        if (numbers.size() != 6) {
             throw new Exception("Exactly 6 numbers should be sent to new Ticket");
         }
         number.addAll(numbers);
+    }
+
+    public int getMatchCount() {
+        return matchCount;
+    }
+
+    public void setMatchCount(int matchCount) {
+        this.matchCount = matchCount;
+    }
+
+    public ArrayList<Integer> getNumber() {
+        return number;
+    }
+
+    public void setNumber(ArrayList<Integer> number) {
+        this.number = number;
     }
 
     private int generateRandomTicketNumber() {
@@ -59,6 +79,7 @@ public class NumbersGroup {
         int got = r.nextInt((NumbersGroup.MAX - NumbersGroup.MIN) + 1) + NumbersGroup.MIN;
         return got;
     }
+
     public String toString() {
         String display = "<strong>";
         for (int i = 0; i < number.size(); i++) {
@@ -66,5 +87,18 @@ public class NumbersGroup {
         }
         display = display + "</strong>";
         return display;
+    }
+
+    public void checkNumbers(int[] winningNumbers) {
+        matchCount = 0;
+        // do checking here
+        for (int number : this.getNumber()) {
+            for (int i = 0; i < winningNumbers.length; i++) {
+                if (number == winningNumbers[i]) {
+                    // we have a match!
+                    matchCount++;
+                }
+            }
+        }
     }
 }
